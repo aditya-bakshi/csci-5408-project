@@ -1,11 +1,13 @@
 package com.database.management.system;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Scanner;
 
 public class DBController {
     static Scanner sc = new Scanner(System.in);
     //Define all msg on console
-    public void run() {
+    public void run() throws FileNotFoundException, IOException {
         System.out.println("Select one of the following :");
         System.out.println("1. Create query");
         System.out.println("2. Select query");
@@ -19,21 +21,32 @@ public class DBController {
         chooseOperation(opNumber);
     }
 
-    private void chooseOperation(int opNumber) {
+    private void chooseOperation(int opNumber) throws FileNotFoundException, IOException {
         if (opNumber < 7 && opNumber >0) {
-            String query = sc.next();
+        	Scanner sc = new Scanner(System.in);
+            String query = sc.nextLine();
             ExecutionData executionData = null;
             switch (opNumber) {
-                case 1: executionData = new CreateData();
-                case 2:executionData = new SelectData();
-                case 3:executionData = new UpdateData();
-                case 4: executionData = new AlterData();
-                case 5 : executionData =new DeleteData();
+                case 1: 
+                	executionData = new CreateData();
+                	break;
+                case 2:
+                	executionData = new SelectData();
+                	break;
+                case 3:
+                	executionData = new UpdateData();
+                	break;
+                case 4: 
+                	executionData = new AlterData();
+                	break;
+                case 5 : 
+                	executionData =new DeleteData();
+                	break;
                 case 6: System.exit(0);
             }
             executionData.execute(query);
         } else {
-            System.out.println("Wrong input provided");
+        	System.out.println("Wrong input provided");
         }
     }
 }
