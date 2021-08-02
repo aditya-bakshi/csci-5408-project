@@ -7,7 +7,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -22,7 +21,10 @@ public class SelectData implements ExecutionData {
 	public final List<String> selectColumns = new ArrayList<String>();
 	public final Map<Integer, String> tableColumns = new TreeMap<Integer, String>();
 	public final Map<String, String> whereColumnValues = new HashMap<String, String>();
+	public final Map<String, ArrayList<String>> allData = new HashMap<>();
 	public final Map<String, ArrayList<String>> data = new HashMap<>();
+	public static int numberOfRecords = 0;
+	public static boolean isWhere = false;
 
 	@Override
 	public void execute(String query) throws IOException {
@@ -32,15 +34,6 @@ public class SelectData implements ExecutionData {
 			readFile(tableName);
 			writeOutput();
 		}
-//		System.out.println(whereColumns);
-//		System.out.println(selectColumns);
-//		System.out.println(tableColumns);
-//		System.out.println(whereColumnValues);
-//		System.out.println(data);
-
-		// fetchMetaData(isQueryValid);
-		// fetchData
-		// evaluate according to the query
 	}
 
 	@Override
@@ -74,6 +67,8 @@ public class SelectData implements ExecutionData {
 
 			this.whereColumns.add(column);
 			this.whereColumnValues.put(column, value);
+
+			isWhere = true;
 
 			if (!validateColumns(tableName, this.whereColumns)) {
 				return false;
@@ -134,28 +129,68 @@ public class SelectData implements ExecutionData {
 				String columnData = fileDatum.split("-")[i];
 				val.add(columnData);
 			}
-			data.put(columns.get(i), val);
+			numberOfRecords = val.size();
+			allData.put(columns.get(i), val);
+		}
+		if (isWhere) {
+			filterData(allData);
+		}
+	}
+
+	public void filterData(Map<String, ArrayList<String>> data) {
+		List<Integer> indexListToBeRemoved = new ArrayList<>();
+		for (Map.Entry<String, ArrayList<String>> entry : data.entrySet()) {
+			if (entry.getKey().equals(whereColumns.get(0))) {
+				int i = 0;
+				for (String s : entry.getValue()) {
+					if (!s.equals(whereColumnValues.get(whereColumns.get(0)))) {
+						indexListToBeRemoved.add(i);
+					}
+					i++;
+				}
+				numberOfRecords = numberOfRecords - indexListToBeRemoved.size();
+			}
+		}
+		for (Map.Entry<String, ArrayList<String>> entry : data.entrySet()) {
+			for (int i = 0; i < indexListToBeRemoved.size(); i++) {
+				int f = indexListToBeRemoved.get(i);
+				if (i > 0) {
+					f = f - i;
+				}
+				entry.getValue().remove(f);
+			}
 		}
 	}
 
 	public void writeOutput() {
+
 		if (selectColumns.contains("*")) {
 			for (Map.Entry<Integer, String> entry : tableColumns.entrySet()) {
-				System.out.print(entry.getValue() + "         ");
+				System.out.print(entry.getValue() + "\t\t\t");
+			}
+			System.out.println();
+			for (int i = 0; i < numberOfRecords; i++) {
+				for (Map.Entry<Integer, String> entry : tableColumns.entrySet()) {
+					System.out.print(allData.get(entry.getValue()).get(i) + "\t\t\t");
+				}
+				System.out.println();
 			}
 		} else {
 			for (Map.Entry<Integer, String> entry : tableColumns.entrySet()) {
 				if (selectColumns.contains(entry.getValue())) {
-					System.out.print(entry.getValue() + "         ");
+					System.out.print(entry.getValue() + "\t\t\t");
 				}
 			}
+			System.out.println();
+			for (int i = 0; i < numberOfRecords; i++) {
+				for (Map.Entry<Integer, String> entry : tableColumns.entrySet()) {
+					if (selectColumns.contains(entry.getValue())) {
+						System.out.print(allData.get(entry.getValue()).get(i) + "\t\t\t");
+					}
+				}
+				System.out.println();
+			}
 		}
-
-		System.out.println();
-
-		System.out.println(selectColumns);
-		System.out.println(data);
-		System.out.println(data.get(data));
 	}
 
 }
