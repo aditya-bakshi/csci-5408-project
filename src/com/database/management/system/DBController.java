@@ -9,7 +9,7 @@ public class DBController {
     //Define all msg on console
     public void run() throws FileNotFoundException, IOException {
         System.out.println("Select one of the following :");
-        System.out.println("1. Create query");
+        System.out.println("1. Insert query");
         System.out.println("2. Select query");
         System.out.println("3. Update query");
         System.out.println("4. Alter query");
@@ -28,7 +28,7 @@ public class DBController {
             ExecutionData executionData = null;
             switch (opNumber) {
                 case 1: 
-                	executionData = new CreateData();
+                	executionData = new InsertData();
                 	break;
                 case 2:
                 	executionData = new SelectData();

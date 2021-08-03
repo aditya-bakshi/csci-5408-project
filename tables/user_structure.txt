@@ -2,4 +2,4 @@ ColumnName=ID#ColumnType=Int#ColumnLength=2#PrimaryKey=true#ForeignKey=false#Ref
 ColumnName=Name#ColumnType=Varchar#ColumnLength=10#PrimaryKey=false#ForeignKey=false#ReferencedTable=null
 ColumnName=Age#ColumnType=Int#ColumnLength=2#PrimaryKey=false#ForeignKey=false#ReferencedTable=null
 ColumnName=Sex#ColumnType=Varchar#ColumnLength=10#PrimaryKey=false#ForeignKey=false#ReferencedTable=null
-ColumnName=Department#ColumnType=Int#ColumnLength=2#PrimaryKey=false#ForeignKey=true#ReferencedTable=Department
+ColumnName=Department#ColumnType=Varchar#ColumnLength=2#PrimaryKey=false#ForeignKey=true#ReferencedTable=Department
