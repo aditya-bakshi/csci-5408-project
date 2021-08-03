@@ -5,48 +5,41 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class DBController {
-    static Scanner sc = new Scanner(System.in);
-    //Define all msg on console
-    public void run() throws FileNotFoundException, IOException {
-        System.out.println("Select one of the following :");
-        System.out.println("1. Insert query");
-        System.out.println("2. Select query");
-        System.out.println("3. Update query");
-        System.out.println("4. Alter query");
-        System.out.println("5. Delete query");
-        System.out.println("6. Exit");
+	static Scanner sc = new Scanner(System.in);
 
+	public void run() throws FileNotFoundException, IOException {
+		Scanner sc = new Scanner(System.in);
+		String opNumber = sc.nextLine();
+		chooseOperation(opNumber.toLowerCase(), sc);
+	}
 
-        int opNumber = sc.nextInt();
-        chooseOperation(opNumber);
-    }
+	private void chooseOperation(String opNumber, Scanner sc) throws FileNotFoundException, IOException {
+//		Scanner ssc = new Scanner(System.in);
+//		String query = ssc.nextLine();
+		String query = opNumber;
+		System.out.println(query);
+		ExecutionData executionData = null;
+		if (opNumber.contains("select")) {
+			executionData = new SelectData();
+		} else if (opNumber.contains("create table")) {
+			executionData = new CreateTable();
+		} else if (opNumber.contains("insert")) {
+			executionData = new InsertData();
+		} else if (opNumber.contains("update")) {
+			executionData = new UpdateData();
+		} else if (opNumber.contains("alter")) {
+			executionData = new AlterData();
+		} else if (opNumber.contains("delete")) {
+			executionData = new DeleteData();
+		} else if (opNumber.equals("exit")) {
+			System.exit(0);
+		} else {
+			System.out.println("Wrong input provided");
+		}
+		if (executionData != null) {
+			executionData.execute(query);
+			run();
+		}
 
-    private void chooseOperation(int opNumber) throws FileNotFoundException, IOException {
-        if (opNumber < 7 && opNumber >0) {
-        	Scanner sc = new Scanner(System.in);
-            String query = sc.nextLine();
-            ExecutionData executionData = null;
-            switch (opNumber) {
-                case 1: 
-                	executionData = new InsertData();
-                	break;
-                case 2:
-                	executionData = new SelectData();
-                	break;
-                case 3:
-                	executionData = new UpdateData();
-                	break;
-                case 4: 
-                	executionData = new AlterData();
-                	break;
-                case 5 : 
-                	executionData =new DeleteData();
-                	break;
-                case 6: System.exit(0);
-            }
-            executionData.execute(query);
-        } else {
-        	System.out.println("Wrong input provided");
-        }
-    }
+	}
 }
