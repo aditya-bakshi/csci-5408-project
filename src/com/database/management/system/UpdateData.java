@@ -7,6 +7,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,6 +17,11 @@ import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * 
+ * @author Aditya
+ *
+ */
 public class UpdateData implements ExecutionData {
 	static String database;
 	static String tableName = "";
@@ -27,6 +33,8 @@ public class UpdateData implements ExecutionData {
 	public final List<String> tableColumnType = new ArrayList<String>();
 	public final Map<String, ArrayList<String>> allData = new HashMap<>();
 	static int numberOfRows;
+	
+	Log log = new Log();
 
 	public UpdateData(String database) {
 		this.database = database;
@@ -190,6 +198,7 @@ public class UpdateData implements ExecutionData {
 	}
 
 	public void updateTable(String tableName) throws IOException {
+		log.writeLog(String.valueOf(new Timestamp(System.currentTimeMillis())) + ": Updating values in " + tableName);
 		List<String> rows = new ArrayList<String>();
 		String row = "";
 		for (int i = 0; i < numberOfRows; i++) {

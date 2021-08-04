@@ -5,11 +5,17 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * 
+ * @author Aditya
+ *
+ */
 public class CreateTable implements ExecutionData {
 	static String database;
 	static String tableName;
@@ -18,6 +24,8 @@ public class CreateTable implements ExecutionData {
 	public final List<String> columnDataTypes = new ArrayList<String>();
 	public final List<String> columnLength = new ArrayList<String>();
 
+	Log log = new Log();
+	
 	public CreateTable(String database) {
 		this.database = database;
 	}
@@ -72,6 +80,7 @@ public class CreateTable implements ExecutionData {
 	}
 
 	public void createTable() throws IOException {
+		log.writeLog(String.valueOf(new Timestamp(System.currentTimeMillis())) + ": Creating table: " + tableName);
 		String columnName = "ColumnName=";
 		String columnType = "ColumnType=";
 		String colLength = "ColumnLength=";

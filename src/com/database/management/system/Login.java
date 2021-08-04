@@ -9,9 +9,12 @@ import java.util.Scanner;
 
 public class Login {
 
+	/**
+	 * 
+	 * @author Aditya
+	 *
+	 */
 	public boolean authenticate(String username, String password) throws IOException {
-//		Path currentRelativePath = Paths.get("");
-//		String s = currentRelativePath.toAbsolutePath().toString();
 		List<String> file = Files.readAllLines(Paths.get("authenticate/users.txt"));
 		for (String data : file) {
 			String[] columnData = data.split("#");

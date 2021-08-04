@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -14,6 +15,11 @@ import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * 
+ * @author Aditya
+ *
+ */
 public class SelectData implements ExecutionData {
 	
 	static String database;
@@ -26,6 +32,8 @@ public class SelectData implements ExecutionData {
 	public final Map<String, ArrayList<String>> data = new HashMap<>();
 	public static int numberOfRecords = 0;
 	public static boolean isWhere = false;
+	
+	Log log = new Log();
 
 	public SelectData(String database) {
 		this.database = database;
@@ -112,7 +120,7 @@ public class SelectData implements ExecutionData {
 		return tableColumns;
 	}
 
-	public void getQueryColumns(String query) {
+	public void getQueryColumns(String query) throws IOException {
 		Pattern pattern = Pattern.compile("select(.*)from", Pattern.CASE_INSENSITIVE);
 		Matcher matcher = pattern.matcher(query);
 		String[] columns = new String[0];
@@ -126,6 +134,7 @@ public class SelectData implements ExecutionData {
 	}
 
 	public void readFile(String table) throws IOException {
+		log.writeLog(String.valueOf(new Timestamp(System.currentTimeMillis())) + ": Reading table " + table);
 		List<String> fileData = Files.readAllLines(Paths.get("database/" + database + "/" + tableName + "_values.txt"));
 		Map<Integer, String> columns = getColumns(table);
 		for (int i = 0; i < columns.size(); i++) {
@@ -167,8 +176,8 @@ public class SelectData implements ExecutionData {
 		}
 	}
 
-	public void writeOutput() {
-
+	public void writeOutput() throws IOException {
+		log.writeLog(String.valueOf(new Timestamp(System.currentTimeMillis())) + ": Printing output");
 		if (selectColumns.contains("*")) {
 			for (Map.Entry<Integer, String> entry : tableColumns.entrySet()) {
 				System.out.print(entry.getValue() + "\t\t\t");

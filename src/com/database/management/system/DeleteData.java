@@ -7,6 +7,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -14,6 +15,11 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.TreeMap;
 
+/**
+ * 
+ * @author Aditya
+ *
+ */
 public class DeleteData implements ExecutionData {
 	static String database;
 	static String tableName;
@@ -23,6 +29,8 @@ public class DeleteData implements ExecutionData {
 	static int numberOfRows;
 	public final List<String> tableColumnNames = new ArrayList<String>();
 	static boolean isWhere;
+	
+	Log log = new Log();
 
 	public DeleteData(String database) {
 		this.database = database;
@@ -147,6 +155,7 @@ public class DeleteData implements ExecutionData {
 	}
 
 	public void updateTable(String tableName) throws IOException {
+		log.writeLog(String.valueOf(new Timestamp(System.currentTimeMillis())) + ": Deleting data from " + tableName);
 		File myObj = new File("database/" + database + "/" + tableName + "_values.txt");
 		BufferedWriter writer = new BufferedWriter(new FileWriter(myObj));
 

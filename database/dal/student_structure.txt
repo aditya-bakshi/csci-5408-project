@@ -1,0 +1,2 @@
+ColumnName=id#ColumnType=int#ColumnLength=255#PrimaryKey=true#ForeignKey=false#ReferencedTable=null
+ColumnName=name#ColumnType=varchar#ColumnLength=45#PrimaryKey=false#ForeignKey=false#ReferencedTable=null
