@@ -6,11 +6,27 @@ import java.util.Scanner;
 
 public class DBController {
 	static Scanner sc = new Scanner(System.in);
+	static boolean isLoggedIn = false;
 
 	public void run() throws FileNotFoundException, IOException {
-		Scanner sc = new Scanner(System.in);
-		String opNumber = sc.nextLine();
-		chooseOperation(opNumber.toLowerCase(), sc);
+		if (!isLoggedIn) {
+			Login login = new Login();
+			System.out.println("**************************");
+			System.out.println("Welcome to Dalhousie DBMS");
+			System.out.println("**************************");
+			System.out.println("Enter your username: ");
+			Scanner scan = new Scanner(System.in);
+			String username = scan.next();
+			System.out.println("Enter password");
+			String password = scan.next();
+			isLoggedIn = login.authenticate(username, password);
+		}
+
+		if (isLoggedIn) {
+			Scanner sc = new Scanner(System.in);
+			String opNumber = sc.nextLine();
+			chooseOperation(opNumber.toLowerCase(), sc);
+		}
 	}
 
 	private void chooseOperation(String opNumber, Scanner sc) throws FileNotFoundException, IOException {

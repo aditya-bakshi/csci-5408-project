@@ -46,9 +46,6 @@ public class DeleteData implements ExecutionData {
 			return false;
 		}
 
-//		if (!words[2].matches("[a-zA-Z0-9]+")) {
-//			return false;
-//		}
 
 		// fetch table name
 		tableName = words[2].toLowerCase();
