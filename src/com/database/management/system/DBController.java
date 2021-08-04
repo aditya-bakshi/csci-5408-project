@@ -79,6 +79,8 @@ public class DBController {
 				executionData = new AlterData();
 			} else if (opNumber.contains("delete")) {
 				executionData = new DeleteData(database);
+			} else if (opNumber.contains("dump")) {
+				executionData = new Datadump();
 			} else if (opNumber.equals("exit")) {
 				System.exit(0);
 			} else {
