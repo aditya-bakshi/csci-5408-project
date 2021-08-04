@@ -98,9 +98,6 @@ public class CreateTable implements ExecutionData {
 		
 		myObj = new File("tables/" + tableName + "_values.txt");
 		myObj.createNewFile();
-//		writer = new BufferedWriter(new FileWriter(myObj));
-//		writer.append("\n");
-//		writer.close();
 	}
 
 }
