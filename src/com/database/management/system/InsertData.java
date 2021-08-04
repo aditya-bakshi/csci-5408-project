@@ -120,7 +120,9 @@ public class InsertData implements ExecutionData {
 	public void insertData() throws IOException {
 		File myObj = new File("tables/" + tableName + "_values.txt");
 		BufferedWriter writer = new BufferedWriter(new FileWriter(myObj, true));
-		writer.append("\n");
+		if (myObj.length() != 0) {
+			writer.append("\n");
+		}
 		String row = "";
 		for (int i = 0; i < values.length; i++) {
 			row = row + values[i];
