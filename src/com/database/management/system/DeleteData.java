@@ -15,6 +15,7 @@ import java.util.Scanner;
 import java.util.TreeMap;
 
 public class DeleteData implements ExecutionData {
+	static String database;
 	static String tableName;
 	static String whereColumn;
 	static String whereValue;
@@ -23,6 +24,10 @@ public class DeleteData implements ExecutionData {
 	public final List<String> tableColumnNames = new ArrayList<String>();
 	static boolean isWhere;
 
+	public DeleteData(String database) {
+		this.database = database;
+	}
+
 	@Override
 	public void execute(String query) throws IOException {
 		if (validateQuery(query)) {
@@ -30,11 +35,13 @@ public class DeleteData implements ExecutionData {
 			readTableData(tableName);
 			deleteData();
 			updateTable(tableName);
+		} else {
+			throw new RuntimeException("Invalid query");
 		}
 	}
 
 	@Override
-	public boolean validateQuery(String query) {
+	public boolean validateQuery(String query) throws FileNotFoundException {
 		isWhere = false;
 		
 		String[] words = query.split(" ");
@@ -54,7 +61,6 @@ public class DeleteData implements ExecutionData {
 		}
 
 		if (words.length > 3) {
-			try {
 				if (!words[3].equalsIgnoreCase("where")) {
 					return false;
 				}
@@ -63,17 +69,9 @@ public class DeleteData implements ExecutionData {
 				whereColumn = whereCondition[0].toLowerCase();
 				whereValue = whereCondition[1].toLowerCase();
 
-				try {
 					if (!validateColumns(tableName, whereColumn)) {
-						throw new RuntimeException();
+						throw new RuntimeException("Column specified in where clause doesn't exist");
 					}
-				} catch (FileNotFoundException e) {
-					System.out.println("Column specified in where clause doesn't exist");
-				}
-
-			} catch (ArrayIndexOutOfBoundsException ex) {
-				return false;
-			}
 		}
 		return true;
 	}
@@ -87,7 +85,7 @@ public class DeleteData implements ExecutionData {
 	}
 
 	public Map<Integer, String> getColumns(String tableName) {
-		File tableFile = new File("tables/" + tableName + "_structure.txt");
+		File tableFile = new File("database/" + database + "/" + tableName + "_structure.txt");
 		Scanner sc;
 		Map<Integer, String> tableColumns = new TreeMap<Integer, String>();
 		try {
@@ -102,6 +100,8 @@ public class DeleteData implements ExecutionData {
 			}
 		} catch (FileNotFoundException e) {
 			System.out.println("Table doesn't exist");
+			DBController obj = new DBController();
+			obj.run();
 		}
 		return tableColumns;
 	}
@@ -133,7 +133,7 @@ public class DeleteData implements ExecutionData {
 	}
 
 	public void fetchTableStructure(String tableName) throws FileNotFoundException {
-		File tableFile = new File("tables/" + tableName + "_structure.txt");
+		File tableFile = new File("database/" + database + "/" + tableName + "_structure.txt");
 		Scanner sc;
 		sc = new Scanner(tableFile);
 		while (sc.hasNextLine()) {
@@ -147,7 +147,7 @@ public class DeleteData implements ExecutionData {
 	}
 
 	public void updateTable(String tableName) throws IOException {
-		File myObj = new File("tables/" + tableName + "_values.txt");
+		File myObj = new File("database/" + database + "/" + tableName + "_values.txt");
 		BufferedWriter writer = new BufferedWriter(new FileWriter(myObj));
 
 		if (isWhere) {

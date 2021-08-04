@@ -11,11 +11,16 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class CreateTable implements ExecutionData {
+	static String database;
 	static String tableName;
 	static String primaryKey;
 	public final List<String> columnNames = new ArrayList<String>();
 	public final List<String> columnDataTypes = new ArrayList<String>();
 	public final List<String> columnLength = new ArrayList<String>();
+
+	public CreateTable(String database) {
+		this.database = database;
+	}
 
 	@Override
 	public void execute(String query) throws FileNotFoundException, IOException {
@@ -59,7 +64,7 @@ public class CreateTable implements ExecutionData {
 	}
 
 	public boolean tableExists(String tableName) {
-		File f = new File("tables/" + tableName + "_structure.txt");
+		File f = new File("database/" + database + "/" + tableName + "_structure.txt");
 		if (f.exists()) {
 			return true;
 		}
@@ -88,7 +93,7 @@ public class CreateTable implements ExecutionData {
 			rows.set(0, row);
 		}
 
-		File myObj = new File("tables/" + tableName + "_structure.txt");
+		File myObj = new File("database/" + database + "/" + tableName + "_structure.txt");
 		BufferedWriter writer = new BufferedWriter(new FileWriter(myObj));
 		for (String s : rows) {
 			writer.append(s);
@@ -96,7 +101,7 @@ public class CreateTable implements ExecutionData {
 		}
 		writer.close();
 		
-		myObj = new File("tables/" + tableName + "_values.txt");
+		myObj = new File("database/" + database + "/" + tableName + "_values.txt");
 		myObj.createNewFile();
 	}
 

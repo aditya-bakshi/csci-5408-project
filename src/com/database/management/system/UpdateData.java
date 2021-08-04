@@ -17,6 +17,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class UpdateData implements ExecutionData {
+	static String database;
 	static String tableName = "";
 	static String whereColumn;
 	static String whereValue;
@@ -26,6 +27,10 @@ public class UpdateData implements ExecutionData {
 	public final List<String> tableColumnType = new ArrayList<String>();
 	public final Map<String, ArrayList<String>> allData = new HashMap<>();
 	static int numberOfRows;
+
+	public UpdateData(String database) {
+		this.database = database;
+	}
 
 	@Override
 	public void execute(String query) throws IOException {
@@ -66,8 +71,12 @@ public class UpdateData implements ExecutionData {
 			}
 		} catch (FileNotFoundException e) {
 			System.out.println("Table doesn't exist");
+			DBController obj = new DBController();
+			obj.run();
 		} catch (RuntimeException e) {
 			System.out.println("Column specified in where doesn't exist");
+			DBController obj = new DBController();
+			obj.run();
 		}
 
 		// get set columns and values
@@ -93,7 +102,7 @@ public class UpdateData implements ExecutionData {
 	}
 
 	public Map<Integer, String> getColumns(String tableName) throws FileNotFoundException {
-		File tableFile = new File("tables/" + tableName + "_structure.txt");
+		File tableFile = new File("database/" + database + "/" + tableName + "_structure.txt");
 		Scanner sc = new Scanner(tableFile);
 		Map<Integer, String> tableColumns = new TreeMap<Integer, String>();
 		int counter = 0;
@@ -108,7 +117,7 @@ public class UpdateData implements ExecutionData {
 	}
 
 	public void fetchTableStructure(String tableName) throws FileNotFoundException {
-		File tableFile = new File("tables/" + tableName + "_structure.txt");
+		File tableFile = new File("database/" + database + "/" + tableName + "_structure.txt");
 		Scanner sc;
 		sc = new Scanner(tableFile);
 		while (sc.hasNextLine()) {
@@ -129,6 +138,8 @@ public class UpdateData implements ExecutionData {
 			}
 		} catch (RuntimeException e) {
 			System.out.println("Cannot update key value");
+			DBController obj = new DBController();
+			obj.run();
 		}
 
 		try {
@@ -145,11 +156,13 @@ public class UpdateData implements ExecutionData {
 			}
 		} catch (NumberFormatException e) {
 			System.out.println("Enter data with correct data type");
+			DBController obj = new DBController();
+			obj.run();
 		}
 	}
 
 	public void readTableData(String tableName) throws IOException {
-		List<String> fileData = Files.readAllLines(Paths.get("tables/" + tableName + "_values.txt"));
+		List<String> fileData = Files.readAllLines(Paths.get("database/" + database + "/" + tableName + "_values.txt"));
 		Map<Integer, String> columns = getColumns(tableName);
 		for (int i = 0; i < columns.size(); i++) {
 			ArrayList<String> val = new ArrayList<>();
@@ -191,7 +204,7 @@ public class UpdateData implements ExecutionData {
 			rows.add(row);
 			row = "";
 		}
-		File myObj = new File("tables/" + tableName + "_values.txt");
+		File myObj = new File("database/" + database + "/" + tableName + "_values.txt");
 		BufferedWriter writer = new BufferedWriter(new FileWriter(myObj));
 		for (String r : rows) {
 			writer.append(r);

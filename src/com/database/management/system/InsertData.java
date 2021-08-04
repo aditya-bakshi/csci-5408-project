@@ -11,10 +11,15 @@ import java.util.Scanner;
 import java.util.regex.Pattern;
 
 public class InsertData implements ExecutionData {
+	static String database;
 	public static String tableName;
 	public final List<String> tableColumnNames = new ArrayList<String>();
 	public final List<String> tableColumnType = new ArrayList<String>();
 	public static String[] values = null;
+
+	public InsertData(String database) {
+		this.database = database;
+	}
 
 	@Override
 	public void execute(String query) throws IOException {
@@ -40,7 +45,7 @@ public class InsertData implements ExecutionData {
 		String[] tempList = query.split(" ");
 		tableName = tempList[2];
 
-		File tableFile = new File("tables/" + tableName + "_structure.txt");
+		File tableFile = new File("database/" + database + "/" + tableName + "_structure.txt");
 		Scanner sc;
 		try {
 			sc = new Scanner(tableFile);
@@ -65,6 +70,8 @@ public class InsertData implements ExecutionData {
 			}
 		} catch (FileNotFoundException e) {
 			System.out.println("Table doesn't exist");
+			DBController obj = new DBController();
+			obj.run();
 		}
 	}
 
@@ -90,15 +97,19 @@ public class InsertData implements ExecutionData {
 
 		} catch (NumberFormatException e) {
 			System.out.println("Enter data with correct data type");
+			DBController obj = new DBController();
+			obj.run();
 		} catch (Exception e) {
 			System.out.println("Enter the correct number of fields");
+			DBController obj = new DBController();
+			obj.run();
 		}
 	}
 
 	public void checkKeyViolation() {
 		String key = values[0];
 		List<String> keyRows = new ArrayList<String>();
-		File tableFile = new File("tables/" + tableName + "_values.txt");
+		File tableFile = new File("database/" + database + "/" + tableName + "_values.txt");
 		Scanner sc;
 		try {
 			sc = new Scanner(tableFile);
@@ -112,13 +123,17 @@ public class InsertData implements ExecutionData {
 			}
 		} catch (FileNotFoundException e) {
 			System.out.println("Table doesn't exist");
+			DBController obj = new DBController();
+			obj.run();
 		} catch (RuntimeException e) {
 			System.out.println("Row with given key already exists");
+			DBController obj = new DBController();
+			obj.run();
 		}
 	}
 
 	public void insertData() throws IOException {
-		File myObj = new File("tables/" + tableName + "_values.txt");
+		File myObj = new File("database/" + database + "/" + tableName + "_values.txt");
 		BufferedWriter writer = new BufferedWriter(new FileWriter(myObj, true));
 		if (myObj.length() != 0) {
 			writer.append("\n");

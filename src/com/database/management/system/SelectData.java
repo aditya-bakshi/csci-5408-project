@@ -15,7 +15,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class SelectData implements ExecutionData {
-
+	
+	static String database;
 	public static String tableName = "";
 	public final List<String> whereColumns = new ArrayList<String>();
 	public final List<String> selectColumns = new ArrayList<String>();
@@ -25,6 +26,10 @@ public class SelectData implements ExecutionData {
 	public final Map<String, ArrayList<String>> data = new HashMap<>();
 	public static int numberOfRecords = 0;
 	public static boolean isWhere = false;
+
+	public SelectData(String database) {
+		this.database = database;
+	}
 
 	@Override
 	public void execute(String query) throws IOException {
@@ -94,7 +99,7 @@ public class SelectData implements ExecutionData {
 	}
 
 	public Map<Integer, String> getColumns(String tableName) throws FileNotFoundException {
-		File tableFile = new File("tables/" + tableName + "_structure.txt");
+		File tableFile = new File("database/" + database + "/" + tableName + "_structure.txt");
 		Scanner sc = new Scanner(tableFile);
 		int counter = 0;
 		while (sc.hasNextLine()) {
@@ -121,7 +126,7 @@ public class SelectData implements ExecutionData {
 	}
 
 	public void readFile(String table) throws IOException {
-		List<String> fileData = Files.readAllLines(Paths.get("tables/" + tableName + "_values.txt"));
+		List<String> fileData = Files.readAllLines(Paths.get("database/" + database + "/" + tableName + "_values.txt"));
 		Map<Integer, String> columns = getColumns(table);
 		for (int i = 0; i < columns.size(); i++) {
 			ArrayList<String> val = new ArrayList<>();

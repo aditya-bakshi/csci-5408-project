@@ -2,6 +2,7 @@ package com.database.management.system;
 
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Scanner;
@@ -9,7 +10,8 @@ import java.util.Scanner;
 public class Login {
 
 	public boolean authenticate(String username, String password) throws IOException {
-//		File file = new File("authenticate/users.txt");
+//		Path currentRelativePath = Paths.get("");
+//		String s = currentRelativePath.toAbsolutePath().toString();
 		List<String> file = Files.readAllLines(Paths.get("authenticate/users.txt"));
 		for (String data : file) {
 			String[] columnData = data.split("#");
