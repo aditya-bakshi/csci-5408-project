@@ -83,7 +83,7 @@ public class DBController {
 //		Scanner ssc = new Scanner(System.in);
 //		String query = ssc.nextLine();
 			String query = opNumber;
-			System.out.println(query);
+//			System.out.println(query);
 //		ExecutionData executionData = null;
 			if (opNumber.contains("select")) {
 				executionData = new SelectData(database);

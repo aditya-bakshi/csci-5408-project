@@ -13,3 +13,111 @@
 2021-08-05 03:08:43.67: Printing output
 2021-08-05 03:08:45.933: exit
 2021-08-05 03:08:45.934: Exiting
+2021-08-05 04:32:23.477: Login Page
+2021-08-05 04:32:37.487: Checking Credentials
+2021-08-05 04:32:37.818: Login Page
+2021-08-05 04:32:46.465: Checking Credentials
+2021-08-05 04:32:50.865: Login Page
+2021-08-05 04:32:57.366: Checking Credentials
+2021-08-05 04:32:58.923: Logged in
+2021-08-05 04:33:20.068: create database db4
+2021-08-05 04:33:20.069: Create Database
+2021-08-05 04:33:20.069: create database db4
+2021-08-05 04:33:20.07: Creating database db4
+2021-08-05 04:33:35.2: use db4
+2021-08-05 04:33:56.522: create database db4
+2021-08-05 04:33:56.523: Creating database db4
+2021-08-05 04:34:03.658: use db4
+2021-08-05 04:34:07.876: exit
+2021-08-05 04:34:07.877: Exiting
+2021-08-05 04:34:12.778: Login Page
+2021-08-05 04:34:17.387: Checking Credentials
+2021-08-05 04:34:18.948: Logged in
+2021-08-05 04:34:22.1: use db4
+2021-08-05 04:34:44.114: create table user(id int NOT NULL, name varchar(45), age int NOT NULL, sex varchar(10), department varchar(15), PRIMARY KEY(id));
+2021-08-05 04:34:44.188: Creating table: user
+2021-08-05 04:36:10.554: insert into user values(1,Aditya,25,male,cs,jsad)
+2021-08-05 04:36:20.7: insert into user values(1,Aditya,gdsad,male,cs)
+2021-08-05 04:36:20.704: Inserting row in user
+2021-08-05 04:36:32.59: insert into user values(1,Aditya,25,male,cs)
+2021-08-05 04:36:51.975: insert into user values(1,Aditya,25,male,cs)
+2021-08-05 04:36:51.979: Inserting row in user
+2021-08-05 04:36:55.944: insert into user values(1,Aditya,25,male,cs)
+2021-08-05 04:37:08.962: insert into user values(2,Bakshi,25,male,cs)
+2021-08-05 04:37:08.966: Inserting row in user
+2021-08-05 04:37:21.815: insert into user values(3,Sam,26,female,cs)
+2021-08-05 04:37:21.821: Inserting row in user
+2021-08-05 04:37:45.512: select * from user
+2021-08-05 04:37:45.606: Reading table user
+2021-08-05 04:37:45.61: Printing output
+2021-08-05 04:38:03.075: select id,name from user
+2021-08-05 04:38:03.078: Reading table user
+2021-08-05 04:38:03.081: Printing output
+2021-08-05 04:38:14.556: select id,name from user where id=1
+2021-08-05 04:38:14.56: Reading table user
+2021-08-05 04:38:14.562: Printing output
+2021-08-05 04:38:29.747: select * from user where age=25
+2021-08-05 04:38:29.749: Reading table user
+2021-08-05 04:38:29.751: Printing output
+2021-08-05 04:38:42.744: select * from users
+2021-08-05 04:39:03.984: select * from user
+2021-08-05 04:39:03.987: Reading table user
+2021-08-05 04:39:09.98: exit
+2021-08-05 04:39:09.981: Exiting
+2021-08-05 04:39:16.223: Login Page
+2021-08-05 04:39:24.636: Checking Credentials
+2021-08-05 04:39:26.207: Logged in
+2021-08-05 04:39:28.652: use db4
+2021-08-05 04:39:32.794: select * from user
+2021-08-05 04:39:32.801: Reading table user
+2021-08-05 04:39:32.804: Printing output
+2021-08-05 04:39:47.383: update user set name=Tom,age=30 WHERE ID=1;
+2021-08-05 04:39:47.421: Updating values in user
+2021-08-05 04:39:54.478: select * from user
+2021-08-05 04:39:54.482: Reading table user
+2021-08-05 04:39:54.49: Printing output
+2021-08-05 04:40:15.041: update user set id=5 WHERE name=tom;
+2021-08-05 04:40:41.539: delete from user where id=1
+2021-08-05 04:40:52.178: select * from user
+2021-08-05 04:40:52.182: Reading table user
+2021-08-05 04:40:52.185: Printing output
+2021-08-05 04:40:57.88: delete from user where id=1
+2021-08-05 04:41:01.867: exit
+2021-08-05 04:41:01.868: Exiting
+2021-08-05 04:41:06.589: Login Page
+2021-08-05 04:41:11.555: Checking Credentials
+2021-08-05 04:41:13.343: Logged in
+2021-08-05 04:41:16.207: use db4
+2021-08-05 04:41:25.267: select * from user
+2021-08-05 04:41:25.276: Reading table user
+2021-08-05 04:41:25.279: Printing output
+2021-08-05 04:41:52.563: delete from user where id=1
+2021-08-05 04:53:04.058: Login Page
+2021-08-05 04:53:35.768: Checking Credentials
+2021-08-05 04:53:35.862: Login Page
+2021-08-05 04:53:44.449: Checking Credentials
+2021-08-05 04:53:46.059: Logged in
+2021-08-05 04:53:50.1: use db4
+2021-08-05 04:53:52.945: delete from user where id=1
+2021-08-05 04:55:18.055: Login Page
+2021-08-05 04:55:24.041: Checking Credentials
+2021-08-05 04:55:25.301: Logged in
+2021-08-05 04:55:28.541: use db4
+2021-08-05 04:55:31.298: delete from user where id=1
+2021-08-05 04:56:41.511: Login Page
+2021-08-05 04:56:46.79: Checking Credentials
+2021-08-05 04:56:48.826: Logged in
+2021-08-05 04:56:52.896: use db4
+2021-08-05 04:56:57.664: select * from user
+2021-08-05 04:56:57.673: Reading table user
+2021-08-05 04:56:57.676: Printing output
+2021-08-05 04:58:20.869: delete from user where id=1
+2021-08-05 04:58:20.878: Deleting data from user
+2021-08-05 04:58:25.06: select * from user
+2021-08-05 04:58:25.063: Reading table user
+2021-08-05 04:58:25.066: Printing output
+2021-08-05 04:58:37.755: delete from user
+2021-08-05 04:58:37.763: Deleting data from user
+2021-08-05 04:58:41.386: select * from user
+2021-08-05 04:58:41.388: Reading table user
+2021-08-05 04:58:41.39: Printing output

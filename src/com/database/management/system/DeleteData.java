@@ -115,7 +115,7 @@ public class DeleteData implements ExecutionData {
 	}
 
 	public void readTableData(String tableName) throws IOException {
-		List<String> fileData = Files.readAllLines(Paths.get("tables/" + tableName + "_values.txt"));
+		List<String> fileData = Files.readAllLines(Paths.get("database/" + database + "/" + tableName + "_values.txt"));
 		Map<Integer, String> columns = getColumns(tableName);
 		for (int i = 0; i < columns.size(); i++) {
 			ArrayList<String> val = new ArrayList<>();
