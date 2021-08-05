@@ -5,11 +5,17 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
+/**
+ * 
+ * @author Aditya
+ *
+ */
 public class InsertData implements ExecutionData {
 	String database;
 	String query;
@@ -17,6 +23,8 @@ public class InsertData implements ExecutionData {
 	public final List<String> tableColumnNames = new ArrayList<String>();
 	public final List<String> tableColumnType = new ArrayList<String>();
 	public String[] values = null;
+	
+	Log log = new Log();
 
 	public InsertData(String database, String query) {
 		this.database = database;
@@ -135,6 +143,7 @@ public class InsertData implements ExecutionData {
 	}
 
 	public void insertData() throws IOException {
+		log.writeLog(String.valueOf(new Timestamp(System.currentTimeMillis())) + ": Inserting row in " + tableName);
 		File myObj = new File("database/" + database + "/" + tableName + "_values.txt");
 		BufferedWriter writer = new BufferedWriter(new FileWriter(myObj, true));
 		if (myObj.length() != 0) {

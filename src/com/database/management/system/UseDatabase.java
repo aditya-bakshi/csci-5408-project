@@ -4,6 +4,11 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+/**
+ * 
+ * @author Aditya
+ *
+ */
 public class UseDatabase {
 	String database;
 	String query;

@@ -4,8 +4,14 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.sql.Timestamp;
 import java.util.Scanner;
 
+/**
+ * 
+ * @author Aditya
+ *
+ */
 public class DBController {
 	Scanner sc = new Scanner(System.in);
 	boolean isLoggedIn = false;
@@ -14,6 +20,8 @@ public class DBController {
 	String username = null;
 	List<ExecutionData> eds = new ArrayList<>();
 	boolean isTransaction = false;		
+	
+	Log log = new Log();
 
 	public void run() {
 		try {
@@ -25,25 +33,35 @@ public class DBController {
 				System.out.println("Enter your username or type EXIT: ");
 				Scanner scan = new Scanner(System.in);
 				username = scan.next();
-
+				
+				log.writeLog(String.valueOf(new Timestamp(System.currentTimeMillis())) + ": Login Page");
+				
 				if (username.equalsIgnoreCase("exit")) {
+					log.writeLog(String.valueOf(new Timestamp(System.currentTimeMillis())) + ": Exiting");
+					log.writeLog("*********************************************************");
 					System.exit(0);
 				}
 
 				System.out.println("Enter password");
 				String password = scan.next();
 
+				log.writeLog(String.valueOf(new Timestamp(System.currentTimeMillis())) + ": Checking Credentials");
 				isLoggedIn = login.authenticate(username, password);
 
 				if (isLoggedIn) {
+					log.writeLog(String.valueOf(new Timestamp(System.currentTimeMillis())) + ": Logged in");
 					Scanner sc = new Scanner(System.in);
 					System.out.println("Create or Select Database:");
 					String query = sc.nextLine().toLowerCase();
+					log.writeLog(String.valueOf(new Timestamp(System.currentTimeMillis())) + ": " + query);
 
 					if (query.contains("create")) {
+						log.writeLog(String.valueOf(new Timestamp(System.currentTimeMillis())) + ": Create Database");
+						log.writeLog(String.valueOf(new Timestamp(System.currentTimeMillis())) + ": " + query);
 						executionData = new CreateDatabase(query);
 						executionData.execute();
 						query = sc.nextLine().toLowerCase();
+						log.writeLog(String.valueOf(new Timestamp(System.currentTimeMillis())) + ": " + query);
 					}
 					UseDatabase obj = new UseDatabase(query);
 					database = obj.execute();
@@ -53,7 +71,9 @@ public class DBController {
 
 			if (isLoggedIn) {
 				String opNumber = sc.nextLine();
+				log.writeLog(String.valueOf(new Timestamp(System.currentTimeMillis())) + ": " + opNumber);
 				chooseOperation(opNumber.toLowerCase(), sc, username);
+				
 			} else {
 				run();
 			}
@@ -68,7 +88,7 @@ public class DBController {
 //		Scanner ssc = new Scanner(System.in);
 //		String query = ssc.nextLine();
 			String query = opNumber;
-			System.out.println(query);
+//			System.out.println(query);
 //		ExecutionData executionData = null;
 			if (opNumber.contains("select")) {
 				executionData = new SelectData(database, query);
@@ -119,6 +139,7 @@ public class DBController {
 				executionData = new Erd(query);
 				executionData.execute();
 			} else if (opNumber.equals("exit")) {
+				log.writeLog(String.valueOf(new Timestamp(System.currentTimeMillis())) + ": Exiting");
 				System.exit(0);
 			} else {
 				System.out.println("Wrong input provided");

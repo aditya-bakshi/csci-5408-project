@@ -11,6 +11,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * @author Neel Patel
+ */
 public class Datadump implements ExecutionData {
     private static final String DB_SPACE_PATH = "database";
     String query;
