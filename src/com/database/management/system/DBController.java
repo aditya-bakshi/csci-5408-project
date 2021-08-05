@@ -115,6 +115,9 @@ public class DBController {
 			} else if (opNumber.contains("dump")) {
 				executionData = new Datadump(query);
 				executionData.execute();
+			} else if (opNumber.contains("erd")) {
+				executionData = new Erd(query);
+				executionData.execute();
 			} else if (opNumber.equals("exit")) {
 				System.exit(0);
 			} else {

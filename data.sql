@@ -1,0 +1,11 @@
+Create database db1;
+Create database db2;
+Create table employee(id int(255) primary key,name varchar(45) ,department varchar(15) ,role varchar(15) );
+Insert into employee values (1, 'jake', 'it', 'developer');
+Insert into employee values (2, 'jarvis', 'support', 'associate');
+Create table user(ID Int(2) primary key,Name Varchar(10) ,Age Int(2) ,Sex Varchar(10) ,Department Varchar(2) );
+Insert into user values (1,'Aditya',25,'Male','CS');
+Insert into user values (2,'Bakshi',28,'Male','CS');
+Insert into user values (3,'Sam',24,'Female','EE');
+Insert into user values (4,'Tom',25,'Female','MS');
+Insert into user values (5,'Captain',25,'Male','CS');
