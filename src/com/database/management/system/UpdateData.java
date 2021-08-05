@@ -17,23 +17,25 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class UpdateData implements ExecutionData {
-	static String database;
-	static String tableName = "";
-	static String whereColumn;
-	static String whereValue;
-	static List<String> setColumnNames = new ArrayList<String>();
-	static List<String> setColumnValues = new ArrayList<String>();
+	String database;
+	String query;
+	String tableName = "";
+	String whereColumn;
+	String whereValue;
+	List<String> setColumnNames = new ArrayList<String>();
+	List<String> setColumnValues = new ArrayList<String>();
 	public final List<String> tableColumnNames = new ArrayList<String>();
 	public final List<String> tableColumnType = new ArrayList<String>();
 	public final Map<String, ArrayList<String>> allData = new HashMap<>();
-	static int numberOfRows;
+	int numberOfRows;
 
-	public UpdateData(String database) {
+	public UpdateData(String database, String query) {
 		this.database = database;
+		this.query = query;
 	}
 
 	@Override
-	public void execute(String query) throws IOException {
+	public void execute() throws IOException {
 		if (validateQuery(query)) {
 			getQueryElements(query);
 			validateColumns(tableName, whereColumn);

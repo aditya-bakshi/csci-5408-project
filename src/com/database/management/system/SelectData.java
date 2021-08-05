@@ -16,23 +16,25 @@ import java.util.regex.Pattern;
 
 public class SelectData implements ExecutionData {
 	
-	static String database;
-	public static String tableName = "";
+	String database;
+	String query;
+	public String tableName = "";
 	public final List<String> whereColumns = new ArrayList<String>();
 	public final List<String> selectColumns = new ArrayList<String>();
 	public final Map<Integer, String> tableColumns = new TreeMap<Integer, String>();
 	public final Map<String, String> whereColumnValues = new HashMap<String, String>();
 	public final Map<String, ArrayList<String>> allData = new HashMap<>();
 	public final Map<String, ArrayList<String>> data = new HashMap<>();
-	public static int numberOfRecords = 0;
-	public static boolean isWhere = false;
+	public int numberOfRecords = 0;
+	public boolean isWhere = false;
 
-	public SelectData(String database) {
+	public SelectData(String database, String query) {
 		this.database = database;
+		this.query = query;
 	}
 
 	@Override
-	public void execute(String query) throws IOException {
+	public void execute() throws IOException {
 		boolean isQueryValid = validateQuery(query);
 		if (isQueryValid) {
 			getQueryColumns(query);

@@ -13,9 +13,14 @@ import java.util.stream.Collectors;
 
 public class Datadump implements ExecutionData{
     private static final String DB_SPACE_PATH = "database";
+    String query;
+
+    public Datadump(String query){
+        this.query = query;
+    }
 
     @Override
-    public void execute(String query) throws FileNotFoundException, IOException {
+    public void execute() throws FileNotFoundException, IOException {
         // TODO Auto-generated method stub
         String file = query.replace("dump ", "").strip();
         PrintStream ps = new PrintStream(new File(file));

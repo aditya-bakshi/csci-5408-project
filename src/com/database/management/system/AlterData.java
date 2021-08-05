@@ -2,7 +2,7 @@ package com.database.management.system;
 
 public class AlterData implements ExecutionData{
     @Override
-    public void execute(String query) {
+    public void execute() {
 
     }
 

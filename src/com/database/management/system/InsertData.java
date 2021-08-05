@@ -11,18 +11,20 @@ import java.util.Scanner;
 import java.util.regex.Pattern;
 
 public class InsertData implements ExecutionData {
-	static String database;
-	public static String tableName;
+	String database;
+	String query;
+	public String tableName;
 	public final List<String> tableColumnNames = new ArrayList<String>();
 	public final List<String> tableColumnType = new ArrayList<String>();
-	public static String[] values = null;
+	public String[] values = null;
 
-	public InsertData(String database) {
+	public InsertData(String database, String query) {
 		this.database = database;
+		this.query = query;
 	}
 
 	@Override
-	public void execute(String query) throws IOException {
+	public void execute() throws IOException {
 		boolean isQueryValid = validateQuery(query);
 		if (isQueryValid) {
 			fetchValues(query);

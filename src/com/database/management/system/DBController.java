@@ -2,13 +2,18 @@ package com.database.management.system;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class DBController {
-	static Scanner sc = new Scanner(System.in);
-	static boolean isLoggedIn = false;
-	static String database;
+	Scanner sc = new Scanner(System.in);
+	boolean isLoggedIn = false;
+	String database;
 	ExecutionData executionData = null;
+	String username = null;
+	List<ExecutionData> eds = new ArrayList<>();
+	boolean isTransaction = false;		
 
 	public void run() {
 		try {
@@ -19,7 +24,7 @@ public class DBController {
 				System.out.println("**************************");
 				System.out.println("Enter your username or type EXIT: ");
 				Scanner scan = new Scanner(System.in);
-				String username = scan.next();
+				username = scan.next();
 
 				if (username.equalsIgnoreCase("exit")) {
 					System.exit(0);
@@ -36,19 +41,19 @@ public class DBController {
 					String query = sc.nextLine().toLowerCase();
 
 					if (query.contains("create")) {
-						executionData = new CreateDatabase();
-						executionData.execute(query);
+						executionData = new CreateDatabase(query);
+						executionData.execute();
 						query = sc.nextLine().toLowerCase();
 					}
-					UseDatabase obj = new UseDatabase();
-					database = obj.execute(query);
+					UseDatabase obj = new UseDatabase(query);
+					database = obj.execute();
 
 				}
 			}
 
 			if (isLoggedIn) {
 				String opNumber = sc.nextLine();
-				chooseOperation(opNumber.toLowerCase(), sc);
+				chooseOperation(opNumber.toLowerCase(), sc, username);
 			} else {
 				run();
 			}
@@ -58,7 +63,7 @@ public class DBController {
 		}
 	}
 
-	private void chooseOperation(String opNumber, Scanner sc) {
+	private void chooseOperation(String opNumber, Scanner sc, String username) {
 		try {
 //		Scanner ssc = new Scanner(System.in);
 //		String query = ssc.nextLine();
@@ -66,33 +71,66 @@ public class DBController {
 			System.out.println(query);
 //		ExecutionData executionData = null;
 			if (opNumber.contains("select")) {
-				executionData = new SelectData(database);
+				executionData = new SelectData(database, query);
+				if(executionData.validateQuery(query)){
+					eds.add(executionData);
+				}
 			} else if (opNumber.contains("create table")) {
-				executionData = new CreateTable(database);
+				executionData = new CreateTable(database, query);
+				if(executionData.validateQuery(query)){
+					eds.add(executionData);
+				}
 			} else if (opNumber.contains("create database")) {
-				executionData = new CreateDatabase();
+				executionData = new CreateDatabase(query);
+				if(executionData.validateQuery(query)){
+					eds.add(executionData);
+				}
 			} else if (opNumber.contains("insert")) {
-				executionData = new InsertData(database);
+				executionData = new InsertData(database, query);
+				if(executionData.validateQuery(query)){
+					eds.add(executionData);
+				}
 			} else if (opNumber.contains("update")) {
-				executionData = new UpdateData(database);
+				executionData = new UpdateData(database, query);
+				if(executionData.validateQuery(query)){
+					eds.add(executionData);
+				}
 			} else if (opNumber.contains("alter")) {
 				executionData = new AlterData();
+				if(executionData.validateQuery(query)){
+					eds.add(executionData);
+				}
 			} else if (opNumber.contains("delete")) {
-				executionData = new DeleteData(database);
+				executionData = new DeleteData(database, query);
+				if(executionData.validateQuery(query)){
+					eds.add(executionData);
+				}
+			} else if (opNumber.contains("commit")) {
+				isTransaction = false;
+			} else if (opNumber.contains("begin")) {
+				isTransaction = true;
+			} else if (opNumber.contains("rollback")) {
+				eds.clear();
+				isTransaction = false;
 			} else if (opNumber.contains("dump")) {
-				executionData = new Datadump();
+				executionData = new Datadump(query);
+				executionData.execute();
 			} else if (opNumber.equals("exit")) {
 				System.exit(0);
 			} else {
 				System.out.println("Wrong input provided");
 			}
-			if (executionData != null) {
-				executionData.execute(query);
-				run();
+			if (!isTransaction) {
+				for (ExecutionData ed: eds){
+					ed.execute();
+				}
+				eds.clear();
 			}
+			run();
 
 		} catch (Exception e) {
 			System.err.println(e.getMessage());
+			e.printStackTrace();
 			run();
 		}
 	}

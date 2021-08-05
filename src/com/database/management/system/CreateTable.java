@@ -11,19 +11,21 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class CreateTable implements ExecutionData {
-	static String database;
-	static String tableName;
-	static String primaryKey;
+	String database;
+	String query;
+	String tableName;
+	String primaryKey;
 	public final List<String> columnNames = new ArrayList<String>();
 	public final List<String> columnDataTypes = new ArrayList<String>();
 	public final List<String> columnLength = new ArrayList<String>();
 
-	public CreateTable(String database) {
+	public CreateTable(String database, String query) {
 		this.database = database;
+		this.query = query;
 	}
 
 	@Override
-	public void execute(String query) throws FileNotFoundException, IOException {
+	public void execute() throws FileNotFoundException, IOException {
 		if (validateQuery(query)) {
 			createTable();
 		}

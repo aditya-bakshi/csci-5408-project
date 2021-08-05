@@ -5,10 +5,15 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class CreateDatabase implements ExecutionData {
-	static String database;
+ 	String database;
+	String query;
+
+	public CreateDatabase(String query){
+		this.query = query;
+	}
 
 	@Override
-	public void execute(String query) throws FileNotFoundException {
+	public void execute() throws FileNotFoundException {
 		if (validateQuery(query)) {
 			File theDir = new File("database/" + database);
 			if (!theDir.exists()){

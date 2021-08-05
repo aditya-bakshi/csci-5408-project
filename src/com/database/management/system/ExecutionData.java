@@ -4,6 +4,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public interface ExecutionData {
-    void execute(String query) throws FileNotFoundException, IOException;
+    void execute() throws FileNotFoundException, IOException;
     boolean validateQuery(String query) throws FileNotFoundException;
 }

@@ -15,21 +15,23 @@ import java.util.Scanner;
 import java.util.TreeMap;
 
 public class DeleteData implements ExecutionData {
-	static String database;
-	static String tableName;
-	static String whereColumn;
-	static String whereValue;
+	String database;
+	String query;
+	String tableName;
+	String whereColumn;
+	String whereValue;
 	public final Map<String, ArrayList<String>> allData = new HashMap<>();
-	static int numberOfRows;
+	int numberOfRows;
 	public final List<String> tableColumnNames = new ArrayList<String>();
-	static boolean isWhere;
+	boolean isWhere;
 
-	public DeleteData(String database) {
+	public DeleteData(String database, String query) {
 		this.database = database;
+		this.query = query;
 	}
 
 	@Override
-	public void execute(String query) throws IOException {
+	public void execute() throws IOException {
 		if (validateQuery(query)) {
 			fetchTableStructure(tableName);
 			readTableData(tableName);
@@ -107,7 +109,7 @@ public class DeleteData implements ExecutionData {
 	}
 
 	public void readTableData(String tableName) throws IOException {
-		List<String> fileData = Files.readAllLines(Paths.get("tables/" + tableName + "_values.txt"));
+		List<String> fileData = Files.readAllLines(Paths.get("database/" + database + "/" + tableName + "_values.txt"));
 		Map<Integer, String> columns = getColumns(tableName);
 		for (int i = 0; i < columns.size(); i++) {
 			ArrayList<String> val = new ArrayList<>();

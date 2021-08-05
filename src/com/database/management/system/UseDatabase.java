@@ -5,9 +5,14 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class UseDatabase {
-	static String database;
+	String database;
+	String query;
 
-	public String execute(String query) throws FileNotFoundException, IOException {
+	public UseDatabase(String query){
+		this.query = query;
+	}
+
+	public String execute() throws FileNotFoundException, IOException {
 		if (!validateQuery(query)) {
 			throw new RuntimeException("Invalid query");
 		}
